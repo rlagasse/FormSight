@@ -1,5 +1,6 @@
 import { Camera, CameraType } from 'expo-camera';
 import { useState } from 'react';
+import * as Speech from 'expo-speech';
 import { Button, StyleSheet, Text, Pressable, TouchableOpacity, View, TextInput, ImageBackground, Dimensions } from 'react-native';
 
 import * as React from 'react';
@@ -19,7 +20,7 @@ import confirmed from "./img/confirmation.png";
 function LoginScreen({ navigation }) {
   return (
       <View style={styles.container} >
-        
+
         <TextInput
           // value={this.state.username}
           // onChangeText={(username) => this.setState({ username })}
@@ -32,6 +33,7 @@ function LoginScreen({ navigation }) {
           placeholder={'Password'}
           secureTextEntry={true}
           style={styles.input}
+          
         />
         
         <Button
@@ -52,7 +54,7 @@ function HomeScreen({ navigation }) {
     />
 
       <Text>Home Screen</Text>
-
+      
       <View style={styles.bottomView}>
         <View style = {styles.buttonContainer}>
         <Button
