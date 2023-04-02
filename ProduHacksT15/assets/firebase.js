@@ -2,7 +2,7 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-import { getDatabase } from "firebase/database";
+import { getDatabase, ref, child, get } from "firebase/database";
 
 
 
@@ -21,11 +21,12 @@ import { initializeApp } from "firebase/app";
     projectId: "team-15-485b6",
     storageBucket: "team-15-485b6.appspot.com",
     messagingSenderId: "166979220823",
-    appId: "1:166979220823:web:06dcd97fea91b1819a3a12"
+    appId: "1:166979220823:web:06dcd97fea91b1819a3a12",
+    databaseURL: "https://team-15-485b6-default-rtdb.firebaseio.com/"
   });
 
 // Get a reference to the database
-const database = getDatabase()
+const database = getDatabase(app);
 
 // Initialize Firebase
 // const app = initializeApp(firebaseConfig);

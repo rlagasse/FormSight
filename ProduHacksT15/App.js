@@ -13,13 +13,50 @@ import selectTime from "./img/selectTime.png";
 import findTime from "./img/findTime.png";
 import confirmed from "./img/confirmation.png";
 
-import firebase from './assets/firebase';
+import { getDatabase, ref, child, get } from "firebase/database";
 
+
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+
+
+
+import { initializeApp } from "firebase/app";
+
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+
+
+
+   // Your web app's Firebase configuration
+    const app = initializeApp({  
+    apiKey: "AIzaSyAPGeuwvbcl6UD3RdR5f6xf8k6eppF8NoU",
+    authDomain: "team-15-485b6.firebaseapp.com",
+    projectId: "team-15-485b6",
+    storageBucket: "team-15-485b6.appspot.com",
+    messagingSenderId: "166979220823",
+    appId: "1:166979220823:web:06dcd97fea91b1819a3a12",
+    databaseURL: "https://team-15-485b6-default-rtdb.firebaseio.com/"
+  });
+
+// Get a reference to the database
+const database = getDatabase(app);
 
 
 
 function LoginScreen({ navigation }) {
-  //const db = firebase.database();
+  r = ref(getDatabase(app));
+  get(child(r, `user/-NRzqjNYipwlVYTbYCv1/`)).then((snapshot) => {
+    if (snapshot.exists()) {
+      console.log(snapshot.val());
+    } else {
+      console.log("No data available");
+    }
+  }).catch((error) => {
+    console.error(error);
+  });
   // const ref = db.ref('usersRef');
   // usersRef.once('value', snapshot => {
   //   const users = snapshot.val();
