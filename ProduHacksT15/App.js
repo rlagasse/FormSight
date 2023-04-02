@@ -51,6 +51,7 @@ function setUserID(val) {
   userID = val
 }
 function LoginScreen({ navigation }) {
+  Speech.speak("Type in your username and password to login to Form Sight");
   r = ref(getDatabase(app));
   get(child(r, `user/-NRzqjNYipwlVYTbYCv1`)).then((snapshot) => {
     if (snapshot.exists()) {
@@ -73,12 +74,14 @@ function LoginScreen({ navigation }) {
           // value={this.state.username}
           // onChangeText={(username) => this.setState({ username })}
           placeholder={'Username'}
+          onPress= {() => Speech.speak("Username")}
           style={styles.input}
         />
         <TextInput
           // value={this.state.password}
           // onChangeText={(password) => this.setState({ password })}
           placeholder={'Password'}
+          onPress= {() => Speech.speak("Password")}
           secureTextEntry={true}
           style={styles.input}
         />
@@ -86,13 +89,16 @@ function LoginScreen({ navigation }) {
         <Button
           title={'Login'}
           style={styles.input}
-          onPress={() => navigation.navigate('Home')}
-        />
+          onPress={() => {
+            Speech.speak("Login");
+            navigation.navigate('Home');
+          }}/>
       </View>
   );
 }
 
 function HomeScreen({ navigation }) {
+  Speech.speak("Welcome to Form Sight")
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
     <ImageBackground 
@@ -106,14 +112,18 @@ function HomeScreen({ navigation }) {
         <View style = {styles.buttonContainer}>
         <Button
             title="Trainers"
-            onPress={() => navigation.navigate('Calendar')}
+            onPress={() => {
+              Speech.speak("Trainers");
+              navigation.navigate('Calendar');}}
           />
           </View>
           <View style = {styles.buttonContainer}>
           <Button
             title="Form Check"
-            onPress={() => navigation.navigate('Calendar')}
-          />
+            onPress={() => {
+              Speech.speak("Form Check");
+              navigation.navigate('Calendar');}}
+              />
           </View>
         
         </View>    
@@ -122,13 +132,16 @@ function HomeScreen({ navigation }) {
   );
 }
 function CalendarScreen({navigation}) {
+  Speech.speak("Select a date to meet your trainer")
   return(
     <ImageBackground
         source={calendar}
         style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height}}>
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 
-    <Pressable style={styles.selectDateButton} onPress={() => navigation.navigate('Schedule')}>
+    <Pressable style={styles.selectDateButton} onPress={() =>{ 
+      Speech.speak("Select a time")
+      navigation.navigate('Schedule');}}>
       <Text style={styles.text}>{'Select a time'}</Text>
     </Pressable>
   
@@ -139,6 +152,7 @@ function CalendarScreen({navigation}) {
 }
 
 function FormCheckScreen({navigation}) {
+  Speech.speak("Choose a time")
   return(
     <ImageBackground
         source={calendar}
@@ -168,11 +182,12 @@ function scheduleAppointment(time) {
   }).catch((e) => {
     console.log(e);
   })
-
+  return time;
 }
 
 function ScheduleScreen({navigation}) {
     aptTime = "";
+    Speech.speak("Choose a time to book your appointment");
     return(
     <ImageBackground
         source={findTime}
@@ -180,19 +195,24 @@ function ScheduleScreen({navigation}) {
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       
     
-     <Pressable style={styles.scheduleButton} >
+     <Pressable style={styles.scheduleButton} onPress={() => Speech.speak('12:00pm')}>
       <Text style={styles.text}>{'12:00pm'}</Text>
     </Pressable>
         
-    <Pressable style={styles.scheduleButton} onPress={() => scheduleAppointment('1:00pm')}>
+    <Pressable style={styles.scheduleButton} onPress={() => {
+      Speech.speak('1:00pm');
+      scheduleAppointment('1:00pm');
+      }}>
       <Text style={styles.text}>{'1:00pm'}</Text>
     </Pressable>
     
-    <Pressable style={styles.scheduleButton} >
+    <Pressable style={styles.scheduleButton} onPress={() => Speech.speak('2:00pm')}>
       <Text style={styles.text}>{'2:00pm'}</Text>
     </Pressable> 
 
-    <Pressable style={styles.confirmButton} onPress={() => {navigation.navigate('Confirmed'); scheduleAppointment(aptTime);} }>
+    <Pressable style={styles.confirmButton} onPress={() => {
+      Speech.speak('Confirm');
+      navigation.navigate('Confirmed'); scheduleAppointment(aptTime);} }>
       <Text style={styles.text}>{'Confirm'}</Text>
     </Pressable>
 
@@ -201,9 +221,9 @@ function ScheduleScreen({navigation}) {
   );
 }
 
-function ConfirmedAppointmentScreen({navigation}) {
+function ConfirmedAppointmentScreen({navigation, aptTime}) {
   r = ref(getDatabase(app));
-
+  Speech.speak("Thank you for booking.");
   //check on console
   get(child(r, `appointment/-NRzr2cRQ3ePUGYv7Fub`)).then((snapshot) => {
     if (snapshot.exists()) {
