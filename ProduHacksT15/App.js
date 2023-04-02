@@ -1,40 +1,85 @@
 import { Camera, CameraType } from 'expo-camera';
 import { useState } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Button, StyleSheet, Text, TouchableOpacity, View, TextInput, ImageBackground, Dimensions } from 'react-native';
 
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import calendar from "./img/calendar.png";
+import home from "./img/home.png";
+import time from "./img/time.png";
+import selectTime from "./img/selectTime.png";
+
+
 
 
 function LoginScreen({ navigation }) {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Login Screen</Text>
-      <Button
-        title="Login"
-        onPress={() => navigation.navigate('Home')}
-      />
-    </View>
+      <View style={styles.container}>
+        <TextInput
+          // value={this.state.username}
+          // onChangeText={(username) => this.setState({ username })}
+          placeholder={'Username'}
+          style={styles.input}
+        />
+        <TextInput
+          // value={this.state.password}
+          // onChangeText={(password) => this.setState({ password })}
+          placeholder={'Password'}
+          secureTextEntry={true}
+          style={styles.input}
+        />
+        
+        <Button
+          title={'Login'}
+          style={styles.input}
+          onPress={() => navigation.navigate('Home')}
+        />
+      </View>
   );
 }
 
 function HomeScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <ImageBackground 
+        source={home}
+        style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height}} 
+    />
+
       <Text>Home Screen</Text>
+
+      <View style={styles.bottomView}>
+        <View style = {styles.buttonContainer}>
+        <Button
+            title="Browse Trainers"
+            onPress={() => navigation.navigate('TrainerBrowse')}
+          />
+          </View>
+          <View style = {styles.buttonContainer}>
+          <Button
+            title="Start Training"
+            onPress={() => navigation.navigate('Calendar')}
+          />
+          </View>
+        
+        </View>    
+
+    </View>
+  );
+}
+function CalendarScreen({navigation}) {
+  return(
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <ImageBackground 
+        source={calendar}
+        style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height}} 
+    />
+
       <Button
-        title="Browse Trainers"
-        onPress={() => navigation.navigate('TrainerBrowse')}
-      />
-      <Button
-        title="Edit Profile"
+        title="Select a time"
         onPress={() => navigation.navigate('UserProfile')}
-      />
-      <Button
-        title="Start Training"
-        onPress={() => navigation.navigate('StartTraining')}
       />
     </View>
   );
@@ -136,11 +181,14 @@ function DetailsScreen({ navigation }) {
 const Stack = createNativeStackNavigator();
 
 function App() {
+
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Calendar" component={CalendarScreen} />
         <Stack.Screen name="StartTraining" component={StartTrainingScreen} />
         <Stack.Screen name="UserProfile" component={UserProfileScreen} />
         <Stack.Screen name="EditAccessibility" component={EditAccessibilityScreen} />
@@ -193,18 +241,8 @@ export default App;
 // }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-  },
   camera: {
     flex: 1,
-  },
-  buttonContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: 'transparent',
-    margin: 64,
   },
   button: {
     flex: 1,
@@ -216,4 +254,41 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
   },
+  separator: {
+    marginVertical: 8,
+    borderBottomColor: '#737373',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#ecf0f1',
+  },
+  input: {
+    width: 200,
+    height: 44,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: 'black',
+    marginBottom: 10,
+  },
+
+  bottomView: {
+    flex: 1,
+    flexDirection: 'row',
+    width: '100%',
+    height: 50,
+    backgroundColor: '#EE5407',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute', //Here is the trick
+    bottom: 0, //Here is the trick
+  },
+
+buttonContainer: {
+    flex: 1,
+}
+
 });
