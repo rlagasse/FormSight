@@ -62,11 +62,6 @@ function LoginScreen({ navigation }) {
   }).catch((error) => {
     console.error(error);
   });
-  // const ref = db.ref('usersRef');
-  // usersRef.once('value', snapshot => {
-  //   const users = snapshot.val();
-  //   console.log(users);
-  // });
   return (
       <View style={styles.container} >
         
@@ -111,14 +106,24 @@ function HomeScreen({ navigation }) {
       <View style={styles.bottomView}>
         <View style = {styles.buttonContainer}>
         <Button
+          style = {styles.nav}
             title="Trainers"
             onPress={() => {
               Speech.speak("Trainers");
               navigation.navigate('Calendar');}}
           />
           </View>
+        {/* <View style = {styles.buttonContainer}>
+        <Pressable style={styles.nav} onPress={() =>{ 
+              Speech.speak("Schedule an appointment")
+              navigation.navigate('Calendar');}}>
+              <Text style={styles.text}>{'Trainers'}</Text>
+            </Pressable>
+            </View> */}
+          
           <View style = {styles.buttonContainer}>
           <Button
+          style = {styles.nav}
             title="Form Check"
             onPress={() => {
               Speech.speak("Form Check");
@@ -171,18 +176,35 @@ function FormCheckScreen({navigation}) {
 //hard coded appointment and user id
 function scheduleAppointment(time) {
   aptNumber = ""
-  if (aptTime == '1:00pm') {
-    aptNumber = '-NRzr2cRQ3ePUGYv7Fub'
+  if (time == '12:00pm') {
+    aptNumber = 589354252
+  }
+  else if (time == '1:00pm') {
+    aptNumber = 54381177
+  }
+  else if (time == '2:00pm') {
+    aptNumber = 64462125
+  }
+  else {
+    console.log("error with apt number")
   }
   
+  //update apt
   const db = getDatabase(app);
   const dbRef = ref(db, 'appointment/' + aptNumber)
-  update(dbRef, {user: '-NRzqjNYipwlVYTbYCv1'}).then(() => {
-    console.log("Data updated");
+  update(dbRef, {user: userID}).then(() => {
+    //console.log("Data updated " + aptNumber);
   }).catch((e) => {
     console.log(e);
   })
-  return time;
+  //update user
+  const dbRef2 = ref(db, 'user/-NRzqjNYipwlVYTbYCv1')
+  update(dbRef2, {appointmentid: aptNumber}).then(() => {
+    //console.log("Data updated user" + aptNumber);
+  }).catch((e) => {
+    console.log(e);
+  })
+
 }
 
 function ScheduleScreen({navigation}) {
@@ -195,7 +217,7 @@ function ScheduleScreen({navigation}) {
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       
     
-     <Pressable style={styles.scheduleButton} onPress={() => Speech.speak('12:00pm')}>
+     <Pressable style={styles.scheduleButton} onPress={() => {Speech.speak('12:00pm'); scheduleAppointment('12:00pm');}}>
       <Text style={styles.text}>{'12:00pm'}</Text>
     </Pressable>
         
@@ -206,13 +228,13 @@ function ScheduleScreen({navigation}) {
       <Text style={styles.text}>{'1:00pm'}</Text>
     </Pressable>
     
-    <Pressable style={styles.scheduleButton} onPress={() => Speech.speak('2:00pm')}>
+    <Pressable style={styles.scheduleButton} onPress={() => {Speech.speak('2:00pm'); scheduleAppointment('2:00pm');}}>
       <Text style={styles.text}>{'2:00pm'}</Text>
     </Pressable> 
 
     <Pressable style={styles.confirmButton} onPress={() => {
       Speech.speak('Confirm');
-      navigation.navigate('Confirmed'); scheduleAppointment(aptTime);} }>
+      navigation.navigate('Confirmed')} }>
       <Text style={styles.text}>{'Confirm'}</Text>
     </Pressable>
 
@@ -226,6 +248,13 @@ function ConfirmedAppointmentScreen({navigation, aptTime}) {
   Speech.speak("Thank you for booking.");
   //check on console
   get(child(r, `appointment/-NRzr2cRQ3ePUGYv7Fub`)).then((snapshot) => {
+    if (snapshot.exists()) {
+      console.log(snapshot.val())
+    } else {
+      console.log("No data available");
+    }
+  });
+  get(child(r, `user/-NRzqjNYipwlVYTbYCv1`)).then((snapshot) => {
     if (snapshot.exists()) {
       console.log(snapshot.val())
     } else {
@@ -395,12 +424,19 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 50,
     borderRadius: 4,
     elevation: 3,
     backgroundColor: '#F8B8D0',
-    marginTop: 310,
+  },
+  nav: {
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    // paddingVertical: 12,
+    // paddingHorizontal: 50,
+    // borderRadius: 4,
+    // elevation: 3,
+    backgroundColor: '#F8B8D0',
+    //marginTop: 310,
   },
 
   selectDateButton: {
@@ -480,6 +516,7 @@ const styles = StyleSheet.create({
 
 buttonContainer: {
     flex: 1,
+    backgroundColor: "#F8B8D0"
 }
 
 });
