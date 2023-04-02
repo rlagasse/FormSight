@@ -13,7 +13,8 @@ import selectTime from "./img/selectTime.png";
 import findTime from "./img/findTime.png";
 import confirmed from "./img/confirmation.png";
 
-import { getDatabase, ref, child, get } from "firebase/database";
+
+import { getDatabase, ref, child, get, push, update } from "firebase/database";
 
 
 import firebase from 'firebase/compat/app';
@@ -43,14 +44,15 @@ import { initializeApp } from "firebase/app";
 
 // Get a reference to the database
 const database = getDatabase(app);
-
-
-
+userID = "";
+function setUserID(val) {
+  userID = val
+}
 function LoginScreen({ navigation }) {
   r = ref(getDatabase(app));
-  get(child(r, `user/-NRzqjNYipwlVYTbYCv1/`)).then((snapshot) => {
+  get(child(r, `user/-NRzqjNYipwlVYTbYCv1`)).then((snapshot) => {
     if (snapshot.exists()) {
-      console.log(snapshot.val());
+      setUserID(snapshot.val().userid)
     } else {
       console.log("No data available");
     }
@@ -150,26 +152,48 @@ function FormCheckScreen({navigation}) {
   );
 }
 
+//hard coded appointment and user id
+function scheduleAppointment(time) {
+  aptNumber = ""
+  if (aptTime == '1:00pm') {
+    aptNumber = '-NRzr2cRQ3ePUGYv7Fub'
+  }
+  
+  const db = getDatabase(app);
+  const dbRef = ref(db, 'appointment/' + aptNumber)
+  update(dbRef, {user: '-NRzqjNYipwlVYTbYCv1'}).then(() => {
+    console.log("Data updated");
+  }).catch((e) => {
+    console.log(e);
+  })
+
+}
+
 function ScheduleScreen({navigation}) {
-  return(
+    aptTime = "";
+    function setAppointmentTime(time) {
+      aptTime = time;
+    }
+    return(
     <ImageBackground
         source={findTime}
         style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height}}>
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-
-    {/* <Pressable style={styles.scheduleButton} onPress={() => navigation.navigate('TrainerBrowse')}>
+      
+    
+     <Pressable style={styles.scheduleButton} >
       <Text style={styles.text}>{'12:00pm'}</Text>
     </Pressable>
-
-    <Pressable style={styles.scheduleButton} onPress={() => navigation.navigate('Schedule')}>
+        
+    <Pressable style={styles.scheduleButton} onPress={() => scheduleAppointment('1:00pm')}>
       <Text style={styles.text}>{'1:00pm'}</Text>
     </Pressable>
-
-    <Pressable style={styles.scheduleButton} onPress={() => navigation.navigate('Schedule')}>
+    
+    <Pressable style={styles.scheduleButton} >
       <Text style={styles.text}>{'2:00pm'}</Text>
-    </Pressable> */}
+    </Pressable> 
 
-    <Pressable style={styles.confirmButton} onPress={() => navigation.navigate('Confirmed')}>
+    <Pressable style={styles.confirmButton} onPress={() => {navigation.navigate('Confirmed'); scheduleAppointment(aptTime);} }>
       <Text style={styles.text}>{'Confirm'}</Text>
     </Pressable>
 
@@ -179,6 +203,17 @@ function ScheduleScreen({navigation}) {
 }
 
 function ConfirmedAppointmentScreen({navigation}) {
+  r = ref(getDatabase(app));
+
+  //check on console
+  get(child(r, `appointment/-NRzr2cRQ3ePUGYv7Fub`)).then((snapshot) => {
+    if (snapshot.exists()) {
+      console.log(snapshot.val())
+    } else {
+      console.log("No data available");
+    }
+  });
+
   return(
     <ImageBackground
         source={confirmed}
@@ -268,21 +303,6 @@ function Trainer2Screen({navigation}) {
 
 
 
-
-function DetailsScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Details Screen</Text>
-      <Button
-        title="Go to Details... again"
-        onPress={() => navigation.push('Details')}
-      />
-      <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
-    </View>
-  );
-}
-
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -366,7 +386,7 @@ const styles = StyleSheet.create({
   scheduleButton: {
     alignItems: 'center',
     position: 'relative',
-    bottom: 148,
+    bottom: 50,
     justifyContent: 'center',
     paddingVertical: 12,
     paddingHorizontal: 32,
@@ -384,7 +404,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     backgroundColor: 'black',
-    marginTop: 325,
+    marginTop: 150,
   },
 
   text: {
