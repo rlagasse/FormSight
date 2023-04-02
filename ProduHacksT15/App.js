@@ -1,6 +1,6 @@
 import { Camera, CameraType } from 'expo-camera';
 import { useState } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View, TextInput, ImageBackground, Dimensions } from 'react-native';
+import { Button, StyleSheet, Text, Pressable, TouchableOpacity, View, TextInput, ImageBackground, Dimensions } from 'react-native';
 
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
@@ -10,13 +10,16 @@ import calendar from "./img/calendar.png";
 import home from "./img/home.png";
 import time from "./img/time.png";
 import selectTime from "./img/selectTime.png";
+import findTime from "./img/findTime.png";
+import confirmed from "./img/confirmation.png";
 
 
 
 
 function LoginScreen({ navigation }) {
   return (
-      <View style={styles.container}>
+      <View style={styles.container} >
+        
         <TextInput
           // value={this.state.username}
           // onChangeText={(username) => this.setState({ username })}
@@ -53,13 +56,13 @@ function HomeScreen({ navigation }) {
       <View style={styles.bottomView}>
         <View style = {styles.buttonContainer}>
         <Button
-            title="Browse Trainers"
-            onPress={() => navigation.navigate('TrainerBrowse')}
+            title="Trainers"
+            onPress={() => navigation.navigate('Calendar')}
           />
           </View>
           <View style = {styles.buttonContainer}>
           <Button
-            title="Start Training"
+            title="Form Check"
             onPress={() => navigation.navigate('Calendar')}
           />
           </View>
@@ -71,17 +74,74 @@ function HomeScreen({ navigation }) {
 }
 function CalendarScreen({navigation}) {
   return(
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-    <ImageBackground 
+    <ImageBackground
         source={calendar}
-        style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height}} 
-    />
+        style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height}}>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 
-      <Button
-        title="Select a time"
-        onPress={() => navigation.navigate('UserProfile')}
-      />
+    <Pressable style={styles.button} onPress={() => navigation.navigate('Schedule')}>
+      <Text style={styles.text}>{'Select a time'}</Text>
+    </Pressable>
+  
+    
     </View>
+    </ImageBackground>
+  );
+}
+
+function FormCheckScreen({navigation}) {
+  return(
+    <ImageBackground
+        source={calendar}
+        style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height}}>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+
+    <Pressable style={styles.button} onPress={() => navigation.navigate('Schedule')}>
+      <Text style={styles.text}>{'Select a time'}</Text>
+    </Pressable>
+    
+    </View>
+    </ImageBackground>
+  );
+}
+
+function ScheduleScreen({navigation}) {
+  return(
+    <ImageBackground
+        source={findTime}
+        style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height}}>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+
+    {/* <Pressable style={styles.scheduleButton} onPress={() => navigation.navigate('TrainerBrowse')}>
+      <Text style={styles.text}>{'12:00pm'}</Text>
+    </Pressable>
+
+    <Pressable style={styles.scheduleButton} onPress={() => navigation.navigate('Schedule')}>
+      <Text style={styles.text}>{'1:00pm'}</Text>
+    </Pressable>
+
+    <Pressable style={styles.scheduleButton} onPress={() => navigation.navigate('Schedule')}>
+      <Text style={styles.text}>{'2:00pm'}</Text>
+    </Pressable> */}
+
+    <Pressable style={styles.confirmButton} onPress={() => navigation.navigate('Confirmed')}>
+      <Text style={styles.text}>{'Confirm'}</Text>
+    </Pressable>
+
+    </View>
+    </ImageBackground>
+  );
+}
+
+function ConfirmedAppointmentScreen({navigation}) {
+  return(
+    <ImageBackground
+        source={confirmed}
+        style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height}}>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    
+    </View>
+    </ImageBackground>
   );
 }
 
@@ -187,8 +247,11 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Calendar" component={CalendarScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false }}/>
+        <Stack.Screen name="Calendar" component={CalendarScreen}options={{headerShown: false }} />
+        <Stack.Screen name="Schedule" component={ScheduleScreen}options={{headerShown: false }} />
+        <Stack.Screen name="Confirmed" component={ConfirmedAppointmentScreen}options={{headerShown: false }} />
+        <Stack.Screen name="FormCheck" component={FormCheckScreen} />
         <Stack.Screen name="StartTraining" component={StartTrainingScreen} />
         <Stack.Screen name="UserProfile" component={UserProfileScreen} />
         <Stack.Screen name="EditAccessibility" component={EditAccessibilityScreen} />
@@ -245,13 +308,45 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   button: {
-    flex: 1,
-    alignSelf: 'flex-end',
     alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: 'black',
+    marginTop: 310,
   },
+
+  scheduleButton: {
+    alignItems: 'center',
+    position: 'relative',
+    bottom: 148,
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: 'black',
+    margin:7,
+  },
+
+  confirmButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: 'black',
+    marginTop: 325,
+  },
+
   text: {
-    fontSize: 24,
+    fontSize: 16,
+    lineHeight: 21,
     fontWeight: 'bold',
+    letterSpacing: 0.25,
     color: 'white',
   },
   separator: {
