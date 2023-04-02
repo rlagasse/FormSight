@@ -32,6 +32,7 @@ newTrainerRef.set({
   password: "iYZ1m6cNhYHuPN2cbRQ1",
   training_specialty: "sight",
   years_experience: 2,
+  member_since: "02-2023"
 });
 
 // Users
@@ -46,7 +47,8 @@ newUserRef.set({
   additional_comments: "n/a",
   experience: "beginner",
   weekly_workout_frequency: 2,
-  trainer: newTrainerRef.key //link by trainer key.
+  trainer: newTrainerRef.key, //link by trainer key.
+  workout: newWorkoutRoutineRef.key
 });
 
 // Appointments
@@ -91,40 +93,42 @@ usersRef.orderByChild('email').equalTo('john.doe@example.com').once('value', (sn
   //appointmentsRef.push(appointment);
 
 
-// //Excercises added into Workout Routines.
-// const newExerciseRef = database.ref('workout_routine').push();
-// newExerciseRef.set({
-//   name: "Child's Pose",
-//   description: "Child's Pose involves kneeling and sitting back on the heels while reaching the arms forward. It stretches the hips, thighs, and ankles while also releasing tension in the lower back, shoulders, and neck.",
-//   accessible_to: ["sight", "hearing"],
-//   reps: 1,
-//   sets: 3
-// });
-// newExerciseRef.set({
-//     name: "Downward Dog",
-//     description: "Start in a plank position, then lift your hips up and back while pressing your hands and feet into the ground. This stretch helps lengthen the spine, hamstrings, and calves.",
-//     accessible_to: ["sight", "hearing"],
-//     reps: 2,
-//     sets: 4
-// });
-//   newExerciseRef.set({
-//     name: "Standing Quad Stretch",
-//     description: "Stand upright and balance on one leg, then bend your other leg and grasp your ankle with your hand. Gently pull your heel towards your buttocks until you feel a stretch in your quadriceps muscle.",
-//     accessible_to: ["sight", "hearing"],
-//     reps: 3,
-//     sets: 3
-// });
+//Excercises added into Workout Routines.
+const newExerciseRef = database.ref('workout_routine').push();
+newExerciseRef.set({
+  name: "Child's Pose",
+  exerciseid: 82272372,
+  description: "Child's Pose involves kneeling and sitting back on the heels while reaching the arms forward. It stretches the hips, thighs, and ankles while also releasing tension in the lower back, shoulders, and neck.",
+  accessible_to: ["sight", "hearing"],
+  reps: 1,
+  sets: 3
+});
+newExerciseRef.set({
+    name: "Downward Dog",
+    exerciseid: 8205980,
+    description: "Start in a plank position, then lift your hips up and back while pressing your hands and feet into the ground. This stretch helps lengthen the spine, hamstrings, and calves.",
+    accessible_to: ["sight", "hearing"],
+    reps: 2,
+    sets: 4
+});
+  newExerciseRef.set({
+    name: "Standing Quad Stretch",
+    exerciseid: 23545766,
+    description: "Stand upright and balance on one leg, then bend your other leg and grasp your ankle with your hand. Gently pull your heel towards your buttocks until you feel a stretch in your quadriceps muscle.",
+    accessible_to: ["sight", "hearing"],
+    reps: 3,
+    sets: 3
+});
 
-// // Get a reference to the user's workout routines
-// const userWorkoutRoutinesRef = newUserRef.child('workoutRoutines');
+// Get a reference to the user's workout routines
+const userWorkoutRoutinesRef = newUserRef.child('workoutRoutines');
 
-
-// // Workout routines assigned to Users. Many workout routines to one Customer
-// // Create a new workout routine for the user
-// const newWorkoutRoutineRef = database.ref(`users/${newUserRef.key}/workoutRoutines`).push();
-// const workout = {
-//   name: 'Stretches',
-//   exercises: ["Child's Pose", 'Downward Dog', 'Standing Quad Stretch']
-// };
-// newWorkoutRoutineRef.set(workout);
+// Workout routines assigned to Users. Many workout routines to one Customer
+// Create a new workout routine for the user
+const newWorkoutRoutineRef = database.ref(`users/${newUserRef.key}/workoutRoutines`).push();
+newWorkoutRoutineRef.set({
+  name: 'Stretches',
+  workoutid: 67317090,
+  exercises: [82272372, 8205980, 23545766] // match on exercise id's.
+});
 
