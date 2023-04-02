@@ -1,5 +1,5 @@
 import { Camera, CameraType } from 'expo-camera';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button, StyleSheet, Text, Pressable, TouchableOpacity, View, TextInput, ImageBackground, Dimensions } from 'react-native';
 
 import * as React from 'react';
@@ -12,17 +12,14 @@ import time from "./img/time.png";
 import selectTime from "./img/selectTime.png";
 import findTime from "./img/findTime.png";
 import confirmed from "./img/confirmation.png";
-import firebase from "./assets/firebase"
+
 
 
 
 function LoginScreen({ navigation }) {
-
-
-
-  
   return (
       <View style={styles.container} >
+        
         <TextInput
           // value={this.state.username}
           // onChangeText={(username) => this.setState({ username })}
@@ -244,7 +241,6 @@ function DetailsScreen({ navigation }) {
 const Stack = createNativeStackNavigator();
 
 function App() {
-
 
 
   return (
