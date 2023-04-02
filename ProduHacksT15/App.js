@@ -1,6 +1,10 @@
 import { Camera, CameraType } from 'expo-camera';
+<<<<<<< HEAD
 import { useState } from 'react';
 import * as Speech from 'expo-speech';
+=======
+import { useState, useEffect } from 'react';
+>>>>>>> 06b5b55e09a6113b6cba65f3e8b39fd2c1bdb77d
 import { Button, StyleSheet, Text, Pressable, TouchableOpacity, View, TextInput, ImageBackground, Dimensions } from 'react-native';
 
 import * as React from 'react';
@@ -13,14 +17,21 @@ import time from "./img/time.png";
 import selectTime from "./img/selectTime.png";
 import findTime from "./img/findTime.png";
 import confirmed from "./img/confirmation.png";
-
+import firebase from "./assets/firebase"
 
 
 
 function LoginScreen({ navigation }) {
+
+
+
+  
   return (
       <View style={styles.container} >
+<<<<<<< HEAD
 
+=======
+>>>>>>> 06b5b55e09a6113b6cba65f3e8b39fd2c1bdb77d
         <TextInput
           // value={this.state.username}
           // onChangeText={(username) => this.setState({ username })}
@@ -243,6 +254,7 @@ function DetailsScreen({ navigation }) {
 const Stack = createNativeStackNavigator();
 
 function App() {
+
 
 
   return (
