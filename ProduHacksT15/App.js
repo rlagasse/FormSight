@@ -13,10 +13,18 @@ import selectTime from "./img/selectTime.png";
 import findTime from "./img/findTime.png";
 import confirmed from "./img/confirmation.png";
 
+import firebase from './assets/firebase';
+
 
 
 
 function LoginScreen({ navigation }) {
+  //const db = firebase.database();
+  // const ref = db.ref('usersRef');
+  // usersRef.once('value', snapshot => {
+  //   const users = snapshot.val();
+  //   console.log(users);
+  // });
   return (
       <View style={styles.container} >
         
