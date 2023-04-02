@@ -1,6 +1,8 @@
 import { Camera, CameraType } from 'expo-camera';
 import { useState } from 'react';
 import { Button, StyleSheet, Text, Pressable, TouchableOpacity, View, TextInput, ImageBackground, Dimensions } from 'react-native';
+import * as Speech from 'expo-speech';
+
 
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
@@ -126,7 +128,7 @@ function CalendarScreen({navigation}) {
         style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height}}>
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 
-    <Pressable style={styles.button} onPress={() => navigation.navigate('Schedule')}>
+    <Pressable style={styles.selectDateButton} onPress={() => navigation.navigate('Schedule')}>
       <Text style={styles.text}>{'Select a time'}</Text>
     </Pressable>
   
@@ -143,7 +145,7 @@ function FormCheckScreen({navigation}) {
         style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height}}>
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 
-    <Pressable style={styles.button} onPress={() => navigation.navigate('Schedule')}>
+    <Pressable style={styles.selectDateButton} onPress={() => navigation.navigate('Schedule')}>
       <Text style={styles.text}>{'Select a time'}</Text>
     </Pressable>
     
@@ -171,9 +173,6 @@ function scheduleAppointment(time) {
 
 function ScheduleScreen({navigation}) {
     aptTime = "";
-    function setAppointmentTime(time) {
-      aptTime = time;
-    }
     return(
     <ImageBackground
         source={findTime}
@@ -372,15 +371,27 @@ const styles = StyleSheet.create({
   camera: {
     flex: 1,
   },
+
   button: {
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
-    paddingHorizontal: 32,
+    paddingHorizontal: 50,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: 'black',
+    backgroundColor: '#F8B8D0',
     marginTop: 310,
+  },
+
+  selectDateButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 50,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#F8B8D0',
+    marginTop: 320,
   },
 
   scheduleButton: {
@@ -389,10 +400,10 @@ const styles = StyleSheet.create({
     bottom: 50,
     justifyContent: 'center',
     paddingVertical: 12,
-    paddingHorizontal: 32,
+    paddingHorizontal: 120,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: 'black',
+    backgroundColor: '#F8B8D0',
     margin:7,
   },
 
@@ -400,10 +411,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
-    paddingHorizontal: 32,
+    paddingHorizontal: 60,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: 'black',
+    backgroundColor: '#F8B8D0',
     marginTop: 150,
   },
 
